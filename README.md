@@ -23,3 +23,10 @@ Python's `html.unescape` handles numeric references and named entities, but its 
 - A bare `&` with no following valid name is left untouched.
 - `&unknown;` (not a real entity) is left untouched, including the semicolon.
 - When one entity name is a prefix of another (e.g. `&amp` vs `&amp;`), the longest match wins.
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
